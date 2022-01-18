@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Introducing ChromeVox Lite</title>
+	<title>Chrome Vox Form</title>
 	<meta name="description" content="A basic form with ChromeVox Lite">
 
 	<!-- Mobile -->
@@ -21,48 +21,15 @@
 			height: 100vh;
 		}
 	</style>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Courgette&family=Roboto&display=swap" rel="stylesheet">
 </head>
 
 <body>
-	<iframe id="flight-booking" src="./index.html"></iframe>
+	<iframe id="flight-booking" src="./basic-form.html"></iframe>
 	<script src="./scripts/injectChromeVox.js"></script>
-	<script>
-		function injectChromeVox(frame) {
-			var templates = document.querySelectorAll('template');
-			var frameHead = frame.contentDocument.head;
-			var frameBody = frame.contentDocument.body;
-
-			var i = 0;
-			function appendNext() {
-				var template = templates[i++];
-				if (!template)
-					return;
-
-				var clone = frame.contentDocument.importNode(template.content, true);
-				var firstElementChild = clone.firstElementChild;
-				if (firstElementChild.tagName === "SCRIPT" && firstElementChild.hasAttribute('src') ||
-					firstElementChild.tagName === "LINK" && firstElementChild.hasAttribute('href')) {
-					firstElementChild.onload = appendNext;
-				} else {
-					window.setTimeout(appendNext, 0);
-				}
-				switch (template.className) {
-					case "head":
-						frameHead.appendChild(clone);
-						return;
-					case "start":
-						frameBody.insertBefore(clone, frameBody.firstElementChild);
-						return;
-					case "end":
-						frameBody.appendChild(clone);
-						return;
-				}
-			}
-			appendNext();
-		}
-		var frame = document.getElementById('flight-booking');
-		frame.addEventListener('load', injectChromeVox.bind(null, frame));
-	</script>
 
 	<template class="head">
 		<link rel="stylesheet" href="./vox.css">
